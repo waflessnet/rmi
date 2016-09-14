@@ -19,7 +19,8 @@ public class Cliente  {
         
         System.out.println ("*** Iniciando Cliente ***");
         try {
-            javarmi.servidor.InterfazRemota irm = (javarmi.servidor.InterfazRemota) Naming.lookup("rmi://localhost:1099/Server");
+            /* el primer argumento debe ser  la ip a la cual nos vamos a conectar */
+            javarmi.servidor.InterfazRemota irm = (javarmi.servidor.InterfazRemota) Naming.lookup("rmi://"+args[0]+":1099/Server");
             //obtenemos de manera remota los strings a procesar.
             String hash = irm.obtenerHash();
             System.out.println("buscamos : "+hash);
