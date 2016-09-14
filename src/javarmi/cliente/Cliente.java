@@ -4,12 +4,11 @@
  * and open the template in the editor.
  */
 package javarmi.cliente;
+import java.net.MalformedURLException;
 import java.rmi.Naming;
-import java.io.File;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.util.Arrays;
-import javarmi.cliente.SHAHashing;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+
 /**
  *
  * @author waflessnet
@@ -28,6 +27,7 @@ public class Cliente  {
             String resultado  = "";
             String[] arrLineas;
             while(recorrer){
+                System.out.println("*** Solicitando un bloque ***");
                 arrLineas =  irm.obtenerArrString();
                 if(arrLineas.length == 0){
                     System.out.println("*** Ha terminado el recorrido ***");
@@ -38,11 +38,12 @@ public class Cliente  {
                      irm.resultado(resultado);
                 }
                 recorrer  = irm.recorrer();
+                
             }
             
             //System.out.println(Arrays.toString(arrLineas));
             
-        } catch (Exception e) {
+        } catch (NotBoundException | MalformedURLException | RemoteException e) {
 
             e.printStackTrace();
 
@@ -50,22 +51,24 @@ public class Cliente  {
     }
         /**
         * 
-        * @param s  arreglo que contiene los strings a convertir a md5.
+        * @param s  arreglo que contiene los strings a comparar mediante sha256.
+        * @param hash el hash que se desea obtener
+        * @return  devuelve  el valor decifrado.
         */
      public static String procesar(String[] s,String hash) {
         String resultado = "";
         String encrypt   = ""; 
         SHAHashing sha = new SHAHashing();
         hash  = hash.toLowerCase();
-        for (int i = 0; i < s.length; i++) {
+        for (String item : s) {
             try {
-            encrypt  = sha.convertirASHA256(s[i]);
-            //System.out.println(encrypt + " -   "+hash);
-            if(encrypt.equals(hash)){
-                resultado  = s[i];
-                System.out.print("'Has encontrado el sring  : '"+s[i]+ "' \n");
-                return resultado;
-            }
+                encrypt = sha.convertirASHA256(item);
+                System.out.println(encrypt);
+                if (encrypt.equals(hash)) {
+                    resultado = item;
+                    System.out.print("'Has encontrado el significado del hash: '" + item + "' \n");
+                    return resultado;
+                }
             }catch(Exception e){
                 //exception.
             }

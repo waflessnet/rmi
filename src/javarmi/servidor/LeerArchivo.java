@@ -21,7 +21,7 @@ public class LeerArchivo {
      public String[]  obtenerArrString(String ruta) throws FileNotFoundException, IOException{
         BufferedReader in = new BufferedReader(new FileReader(ruta));
         String str;
-        List<String> output = new LinkedList<String>();
+        List<String> output = new LinkedList<>();
 
         while((str = in.readLine()) != null){
             output.add(str);

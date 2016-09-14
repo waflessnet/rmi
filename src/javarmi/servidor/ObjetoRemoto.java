@@ -4,12 +4,8 @@
  * and open the template in the editor.
  */
 package javarmi.servidor;
-import java.io.File;
-import java.math.BigInteger;
 import java.rmi.*;
 import java.rmi.server.*;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.LinkedList;
 import java.util.List;
 /**
@@ -29,32 +25,28 @@ public class ObjetoRemoto extends UnicastRemoteObject implements InterfazRemota 
     private  String hash ="";
     private   boolean recorrer = false;
     
-    public ObjetoRemoto (String[] arr) throws RemoteException
+    public ObjetoRemoto (String[] arr,String hash) throws RemoteException
     {   
         super();
         this.arrLineas = arr;
         this.total     = this.arrLineas.length;
         this.bloque    = (int)(Math.round(this.total*porc));
-        //this.hash      = "7406e17d2e30b05b7220a800fad53a22";
-        //this.hash      = "47b594f79af26bcef8a0a87e31f5575b";
-        //this.hash      = "b80e8b333c5b9b7dc3bb1529941b848a";
-        // los de face  
-        //this.hash      = "4b02a2a941c9301e10486027c6277c7a";
-        //this.hash      = "c7620f2946fa148451eb6405f377cb2e";
-        //sha265 
-        this.hash        = "1040C8B58846E831553A255B62C3E5B2FD76F8C6E61167255F0FA4593C873755";
+        this.hash      = hash;
+        
         
         this.recorrer  = true;
         
     }
+    @Override
     public String obtenerHash() throws RemoteException{
         return this.hash;
     }
+    @Override
     public String[] obtenerArrString() throws RemoteException {
-        System.out.println("Solicitud de bloque nuevo \n");
+        System.out.println("Solicitud de bloque \n");
         String[] salida;
         Integer fin = this.index + this.bloque;
-        List<String> output = new LinkedList<String>();
+        List<String> output = new LinkedList<>();
         while(this.index < fin && this.index < this.arrLineas.length ){
             output.add(this.arrLineas[this.index]);
             this.index++;
@@ -65,13 +57,15 @@ public class ObjetoRemoto extends UnicastRemoteObject implements InterfazRemota 
         salida = output.toArray(new String[output.size()]);
         return salida;
     }
+    @Override
     public void resultado(String r) throws RemoteException{
         this.recorrer = false;
-        System.out.println("Se ha encontrado el string: '"+r+"' \n");
+        System.out.println("Un chacalito encontro el string : '"+r+"' \n");
     }
     public void setArreglo(String[] r) throws RemoteException{
         
     }
+    @Override
     public boolean recorrer() throws RemoteException{
         return this.recorrer;
     }
