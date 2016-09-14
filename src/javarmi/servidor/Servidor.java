@@ -16,11 +16,13 @@ public class Servidor {
    
         public static void main(String[] args){
             try{
-                //String[] arrFile = obtenerString();
+                // el primer argumento es la ip
+                // segundo argumento debe ser la ruta donde esta el archivo txt a leer
                 System.out.println ("*** Iniciando Servidor ***");
+                System.setProperty("java.rmi.server.hostname", args[0]); 
                 Registry registry = LocateRegistry.createRegistry(1099);
                 LeerArchivo leer  = new LeerArchivo();
-                String[] lineas   = leer.obtenerArrString(""+args[0]);
+                String[] lineas   = leer.obtenerArrString(""+args[1]);
                 //pasamos al constructor las lineas leídas.
                 registry.rebind("Server", new ObjetoRemoto(lineas));
                 System.out.println ("*** Servidor Iniciado ***");
