@@ -20,7 +20,7 @@ public class Servidor {
                 System.out.println ("*** Iniciando Servidor ***");
                 Registry registry = LocateRegistry.createRegistry(1099);
                 LeerArchivo leer  = new LeerArchivo();
-                String[] lineas   = leer.obtenerArrString();
+                String[] lineas   = leer.obtenerArrString(""+args[0]);
                 //pasamos al constructor las lineas leídas.
                 registry.rebind("Server", new ObjetoRemoto(lineas));
                 System.out.println ("*** Servidor Iniciado ***");

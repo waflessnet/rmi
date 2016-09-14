@@ -18,8 +18,8 @@ import java.util.List;
  */
 public class LeerArchivo {
     
-     public String[]  obtenerArrString() throws FileNotFoundException, IOException{
-        BufferedReader in = new BufferedReader(new FileReader("/home/waflessnet/proyectos/UMayor/computacion_distribuida/claves/cain.txt"));
+     public String[]  obtenerArrString(String ruta) throws FileNotFoundException, IOException{
+        BufferedReader in = new BufferedReader(new FileReader(ruta));
         String str;
         List<String> output = new LinkedList<String>();
 
